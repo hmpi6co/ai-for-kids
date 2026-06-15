@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生成AIのいま大研究！〜キミの知らないAIの世界〜</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=M+PLUS+Rounded+1c:wght@400;500;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1D3354;
+    --blue: #2D7DD2;
+    --coral: #F45D48;
+    --yellow: #FFC857;
+    --teal: #07A0C3;
+    --green: #4CAF7D;
+    --paper: #FDFDF8;
+    --grid: rgba(45,125,210,0.10);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+    line-height: 1.9;
+  }
+  h1, h2, h3 { font-family: 'Zen Maru Gothic', sans-serif; }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 18px 80px; }
+
+  /* ── ヒーロー ── */
+  .hero {
+    text-align: center;
+    padding: 56px 16px 36px;
+  }
+  .hero .eyebrow {
+    display: inline-block;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(1.7rem, 5.5vw, 2.9rem);
+    font-weight: 900;
+    line-height: 1.4;
+  }
+  .hero h1 .marker {
+    background: linear-gradient(transparent 62%, var(--yellow) 62%);
+    padding: 0 2px;
+  }
+  .hero p.lead {
+    margin-top: 16px;
+    font-size: 1.02rem;
+    font-weight: 500;
+  }
+  .hero .robots { font-size: 2.2rem; letter-spacing: 0.3em; margin-top: 14px; }
+
+  /* ── 目次 ── */
+  .toc {
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 18px;
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 22px 26px;
+    margin: 10px 0 50px;
+  }
+  .toc h2 { font-size: 1.05rem; margin-bottom: 10px; }
+  .toc ol { padding-left: 1.4em; font-weight: 500; }
+  .toc a { color: var(--blue); text-decoration: none; font-weight: 700; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* ── 章 ── */
+  section { margin-bottom: 64px; scroll-margin-top: 20px; }
+  .chapter-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .chapter-num {
+    flex-shrink: 0;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 900;
+    font-size: 1.3rem;
+    border: 3px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .chapter-head h2 { font-size: clamp(1.25rem, 4vw, 1.7rem); font-weight: 900; }
+
+  .card {
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    box-shadow: 5px 5px 0 rgba(29,51,84,0.15);
+  }
+  .card h3 { font-size: 1.08rem; margin-bottom: 8px; }
+  .speech {
+    position: relative;
+    background: #EAF4FF;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-weight: 500;
+  }
+  .speech::before {
+    content: "";
+    position: absolute;
+    top: -10px; left: 28px;
+    border: 10px solid transparent;
+    border-bottom-color: #EAF4FF;
+    border-top: none;
+  }
+  .hint {
+    background: #FFF6DE;
+    border-left: 6px solid var(--yellow);
+    border-radius: 0 12px 12px 0;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 0.93rem;
+  }
+  .hint b { color: #B07A00; }
+
+  /* ── タイムライン ── */
+  .timeline { position: relative; padding-left: 34px; }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 12px; top: 6px; bottom: 6px;
+    width: 5px;
+    background: var(--blue);
+    border-radius: 99px;
+  }
+  .t-item { position: relative; margin-bottom: 8px; }
+  .t-item::before {
+    content: "";
+    position: absolute;
+    left: -30px; top: 18px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--yellow);
+    border: 3px solid var(--ink);
+  }
+  .t-item button.t-head {
+    width: 100%;
+    text-align: left;
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform .12s;
+  }
+  .t-item button.t-head:hover { transform: translateX(4px); }
+  .t-item .year {
+    background: var(--blue);
+    color: #fff;
+    border-radius: 8px;
+    padding: 2px 10px;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .t-item .arrow { margin-left: auto; transition: transform .25s; }
+  .t-item.open .arrow { transform: rotate(90deg); }
+  .t-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease;
+    font-size: 0.95rem;
+  }
+  .t-item.open .t-body { max-height: 600px; }
+  .t-body-inner {
+    background: #F4F9FF;
+    border: 2px dashed var(--blue);
+    border-radius: 12px;
+    margin: 8px 0 14px;
+    padding: 14px 18px;
+  }
+
+  /* ── できることカード ── */
+  .grid2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .ability {
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 4px 4px 0 rgba(29,51,84,0.12);
+  }
+  .ability .icon { font-size: 1.9rem; }
+  .ability h3 { font-size: 1.02rem; margin: 6px 0 4px; }
+  .ability p { font-size: 0.9rem; }
+  .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #fff;
+    border-radius: 999px;
+    padding: 2px 10px;
+    margin-top: 8px;
+  }
+
+  /* ── 注意点 ── */
+  .caution {
+    background: #fff;
+    border: 3px solid var(--coral);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    box-shadow: 4px 4px 0 rgba(244,93,72,0.2);
+  }
+  .caution h3 { color: var(--coral); font-size: 1.05rem; margin-bottom: 6px; }
+  .caution .ex {
+    background: #FFF0EE;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    font-size: 0.9rem;
+  }
+
+  /* ── クイズ ── */
+  .quiz-q {
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+  }
+  .quiz-q h3 { font-size: 1.02rem; margin-bottom: 12px; }
+  .quiz-q .opts { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-q button.opt {
+    text-align: left;
+    background: #F4F9FF;
+    border: 2px solid var(--blue);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: transform .1s;
+  }
+  .quiz-q button.opt:hover:not(:disabled) { transform: translateX(4px); background: #E4F0FF; }
+  .quiz-q button.opt.correct { background: #E2F6EA; border-color: var(--green); font-weight: 800; }
+  .quiz-q button.opt.wrong { background: #FFE9E6; border-color: var(--coral); opacity: .8; }
+  .quiz-q .explain {
+    display: none;
+    margin-top: 12px;
+    background: #FFF6DE;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+  .quiz-q.answered .explain { display: block; }
+  #quiz-result {
+    display: none;
+    text-align: center;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 18px;
+    padding: 26px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+  }
+
+  /* ── まとめ ── */
+  .promise {
+    background: linear-gradient(135deg, #fff, #F4F9FF);
+    border: 3px solid var(--ink);
+    border-radius: 18px;
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 26px 28px;
+  }
+  .promise ol { padding-left: 1.5em; font-weight: 700; font-size: 1.02rem; }
+  .promise li { margin-bottom: 10px; }
+  .promise li span { font-weight: 400; font-size: 0.92rem; display: block; }
+
+  footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #7a8aa0;
+    padding: 30px 16px 50px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ヒーロー -->
+  <div class="hero">
+    <div class="eyebrow">小学生・中学生のための</div>
+    <h1>生成AIのいま<span class="marker">大研究！</span><br>〜キミの知らないAIの世界〜</h1>
+    <p class="lead">「AIってなに？」「世界でいま何が起きてるの？」<br>ぜんぶまとめて、たんけんしてみよう！</p>
+    <div class="robots">🤖✨📱🎨🚀</div>
+  </div>
+
+  <!-- 目次 -->
+  <nav class="toc">
+    <h2>📖 もくじ</h2>
+    <ol>
+      <li><a href="#c1">生成AIってそもそもなに？</a></li>
+      <li><a href="#c2">AIの歴史タイムライン（タップして開こう！）</a></li>
+      <li><a href="#c3">いまのAIにできること図かん</a></li>
+      <li><a href="#c4">世界でいま起きていること</a></li>
+      <li><a href="#c5">キミのまわりのAI</a></li>
+      <li><a href="#c6">⚠️ 気をつけること（超大事！）</a></li>
+      <li><a href="#c7">AIはかせクイズに挑戦！</a></li>
+      <li><a href="#c8">まとめ：AIと友だちになる3つの約束</a></li>
+    </ol>
+  </nav>
+
+  <!-- 第1章 -->
+  <section id="c1">
+    <div class="chapter-head">
+      <div class="chapter-num" style="background:var(--blue)">1</div>
+      <h2>生成AIってそもそもなに？</h2>
+    </div>
+    <div class="card">
+      <h3>「生成」＝「つくり出す」AI</h3>
+      <p>生成AI（せいせいエーアイ）は、文章・絵・音楽・動画などを<b>「新しくつくり出す」</b>ことができるコンピュータのプログラムだよ。英語では「Generative AI（ジェネレーティブAI）」って言うんだ。</p>
+      <div class="speech">💬「明日の天気は？」と聞けば文章で答えてくれるし、「宇宙を飛ぶネコの絵をかいて」と頼めば、本当に絵をかいてくれる。まるで何でもできる相棒みたいだね。</div>
+    </div>
+    <div class="card">
+      <h3>しくみをひとことで言うと…「超・予想マシン」</h3>
+      <p>生成AIは、インターネット上にある<b>ものすごくたくさんの文章や画像</b>を読みこんで勉強している。そして「この言葉の次には、どんな言葉が来ることが多いかな？」を予想するのがとくいなんだ。</p>
+      <p>たとえば「むかしむかし、あるところに…」と来たら、次は「おじいさんとおばあさんが」って続きそうだよね？ それを超ハイレベルにやっているのが生成AIだよ。</p>
+      <div class="hint">💡<b>ここがポイント！</b> AIは「考えて」いるように見えるけど、実際は「学んだパターンから予想」している。だから、ときどき<b>まちがえる</b>こともあるんだ（くわしくは第6章で！）。</div>
+    </div>
+  </section>
+
+  <!-- 第2章 -->
+  <section id="c2">
+    <div class="chapter-head">
+      <div class="chapter-num" style="background:var(--teal)">2</div>
+      <h2>AIの歴史タイムライン</h2>
+    </div>
+    <p style="margin-bottom:14px;font-weight:500">▼ それぞれの年をタップして、何が起きたか見てみよう！</p>
+    <div class="timeline">
+      <div class="t-item">
+        <button class="t-head"><span class="year">〜2021</span>AIはまだ「うらかた」だった<span class="arrow">▶</span></button>
+        <div class="t-body"><div class="t-body-inner">スマホの顔認証、カメラのきれい補正、動画サイトのおすすめ…じつはぜんぶAI。でもみんなが「AIと会話する」時代はまだ来ていなかったんだ。</div></div>
+      </div>
+      <div class="t-item">
+        <button class="t-head"><span class="year">2022</span>ChatGPT登場！世界がびっくり<span class="arrow">▶</span></button>
+        <div class="t-body"><div class="t-body-inner">2022年の終わりに「ChatGPT（チャットジーピーティー）」が登場。人間と話すみたいに自然な会話ができて、世界中が大さわぎに。たった2か月で1億人が使ったと言われているよ。歴史上もっとも速く広まったサービスのひとつなんだ。</div></div>
+      </div>
+      <div class="t-item">
+        <button class="t-head"><span class="year">2023</span>絵をかくAIが大ブーム<span class="arrow">▶</span></button>
+        <div class="t-body"><div class="t-body-inner">言葉で説明するだけで、プロみたいな絵や写真をつくれるAIが次々登場。同時に「AIがつくったニセ画像」も問題になり始めて、「本物かAI製か見分ける力」が大事だと言われるようになったよ。</div></div>
+      </div>
+      <div class="t-item">
+        <button class="t-head"><span class="year">2024</span>目と耳を手に入れた「マルチモーダル」<span class="arrow">▶</span></button>
+        <div class="t-body"><div class="t-body-inner">文章だけじゃなく、画像を見せたり、声で話しかけたりできるAIが当たり前に。文字・画像・音声をまとめてあつかえることを「マルチモーダル」と言うよ。「モーダル」は情報の種類のことなんだ。</div></div>
+      </div>
+      <div class="t-item">
+        <button class="t-head"><span class="year">2025</span>「AIエージェント」が動き出す<span class="arrow">▶</span></button>
+        <div class="t-body"><div class="t-body-inner">質問に答えるだけじゃなく、「調べて、まとめて、資料をつくる」みたいに<b>仕事をまるごと任せられるAI</b>が登場。こういうAIを「エージェント（=代わりに動いてくれる人）」と呼ぶよ。プログラムを書くAIもプロ級になってきた。</div></div>
+      </div>
+      <div class="t-item">
+        <button class="t-head"><span class="year">2026</span>いま：AIが「あたりまえ」になる年<span class="arrow">▶</span></button>
+        <div class="t-body"><div class="t-body-inner">2026年は、AIが「めずらしい新技術」から「電気や水道みたいに、社会のあちこちで動くしくみ」に変わってきている年だと言われているよ。会社の多くがAIを仕事に組みこみ、AI同士が協力して作業することも。だからこそ「正しく使う力＝AIリテラシー」がますます大切になっているんだ。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第3章 -->
+  <section id="c3">
+    <div class="chapter-head">
+      <div class="chapter-num" style="background:var(--coral)">3</div>
+      <h2>いまのAIにできること図かん</h2>
+    </div>
+    <div class="grid2">
+      <div class="ability">
+        <div class="icon">✍️</div>
+        <h3>文章をつくる</h3>
+        <p>作文のヒント、お話づくり、むずかしい文章のやさしい言いかえ、英語の練習相手まで。</p>
+        <span class="tag" style="background:var(--blue)">いちばん得意！</span>
+      </div>
+      <div class="ability">
+        <div class="icon">🎨</div>
+        <h3>絵・画像をつくる</h3>
+        <p>「夕焼けの海でサーフィンするペンギン」みたいな無茶ぶりも、数十秒でイラストに。</p>
+        <span class="tag" style="background:var(--coral)">想像力が爆発</span>
+      </div>
+      <div class="ability">
+        <div class="icon">🎬</div>
+        <h3>動画をつくる</h3>
+        <p>短い動画なら文章から生成できるように。ただし会社ごとの競争が激しくて、サービスの入れかわりも多い分野だよ。</p>
+        <span class="tag" style="background:var(--teal)">進化中！</span>
+      </div>
+      <div class="ability">
+        <div class="icon">🎵</div>
+        <h3>音楽をつくる</h3>
+        <p>「元気が出るポップス」と頼めば、歌声つきの曲をつくるAIもある。</p>
+        <span class="tag" style="background:var(--green)">作曲家気分</span>
+      </div>
+      <div class="ability">
+        <div class="icon">💻</div>
+        <h3>プログラムを書く</h3>
+        <p>ゲームやアプリのプログラムを、人間と相談しながら書いてくれる。プロのエンジニアも毎日使っているよ。</p>
+        <span class="tag" style="background:var(--blue)">プロも頼る</span>
+      </div>
+      <div class="ability">
+        <div class="icon">🌍</div>
+        <h3>翻訳・要約・検索</h3>
+        <p>外国語の翻訳、長い文章の要約、調べもののお手伝い。目の見えない人への説明など、人を助ける使い方も広がっている。</p>
+        <span class="tag" style="background:var(--teal)">みんなの味方</span>
+      </div>
+    </div>
+    <div class="hint" style="margin-top:18px">💡<b>つまり…</b> 「文字・画像・音・動画」をまとめてあつかえる<b>マルチモーダルAI</b>が、いまのスタンダード。ひとつのAIにいろんな仕事を頼める時代になったんだ。</div>
+  </section>
+
+  <!-- 第4章 -->
+  <section id="c4">
+    <div class="chapter-head">
+      <div class="chapter-num" style="background:var(--yellow);color:var(--ink)">4</div>
+      <h2>世界でいま起きていること</h2>
+    </div>
+    <div class="card">
+      <h3>🏁 世界中の会社が「AIレース」をしている</h3>
+      <p>アメリカのOpenAI（ChatGPTの会社）、Google（Geminiという AI）、Anthropic（Claudeという AI）などが、もっとかしこいAIをつくろうと毎月のように新しいAIを発表して競争中。中国やヨーロッパ、そして日本の会社も独自のAIを開発しているよ。</p>
+      <div class="speech">💬 たとえるなら、世界中の会社が同時に「もっと速い新幹線」を開発しているような状態。数か月でどんどん性能が上がるから、大人たちも追いかけるのに必死なんだ。</div>
+    </div>
+    <div class="card">
+      <h3>🤝 「答えるAI」から「動くAI」へ</h3>
+      <p>いちばん大きな変化はこれ。少し前までのAIは「質問に答える」だけだった。いまは「来週の自由研究の計画を立てて、必要な材料リストをつくって」みたいに、<b>いくつもの作業をまとめてやりとげるAIエージェント</b>に進化している。</p>
+      <p>さらに、ロボットや機械とつながって<b>現実の世界で体を動かすAI</b>の研究も進んでいるよ。工場や農業、はいたつの仕事で活躍が期待されているんだ。</p>
+    </div>
+    <div class="card">
+      <h3>📜 「AIのルールづくり」も世界の大テーマ</h3>
+      <p>AIが強力になるほど、「安全に使うためのルール」が必要になる。ヨーロッパではAIの法律ができて、日本でも国がAIのルールや活用の方針をつくっているよ。日本の文部科学省は、学校でAIを使うときのガイドライン（手引き）も出しているんだ。</p>
+      <p>「AIをどう便利に使うか」と「どう安全に使うか」を、世界中の大人たちが同時に考えている。これが2026年のリアルだよ。</p>
+    </div>
+  </section>
+
+  <!-- 第5章 -->
+  <section id="c5">
+    <div class="chapter-head">
+      <div class="chapter-num" style="background:var(--green)">5</div>
+      <h2>キミのまわりのAI</h2>
+    </div>
+    <div class="grid2">
+      <div class="ability">
+        <div class="icon">🏫</div>
+        <h3>学校で</h3>
+        <p>先生がプリントやテストづくりにAIを使ったり、授業で「AIの答えは本当に正しいかな？」と確かめる勉強をする学校が増えているよ。</p>
+      </div>
+      <div class="ability">
+        <div class="icon">🏥</div>
+        <h3>病院で</h3>
+        <p>お医者さんが書類づくりの時間をAIで短くして、患者さんと向き合う時間を増やそうとしている。レントゲン画像のチェックを手伝うAIもあるよ。</p>
+      </div>
+      <div class="ability">
+        <div class="icon">🌾</div>
+        <h3>農業で</h3>
+        <p>ドローンとAIで田んぼの様子を空から見守ったり、野菜の病気を写真から見つけたり。人手不足を助けているんだ。</p>
+      </div>
+      <div class="ability">
+        <div class="icon">🎮</div>
+        <h3>ゲーム・エンタメで</h3>
+        <p>ゲームのキャラクターづくりや、アニメの背景づくりにもAIが活躍。キャラと自由に会話できるゲームも登場しているよ。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第6章 -->
+  <section id="c6">
+    <div class="chapter-head">
+      <div class="chapter-num" style="background:var(--coral)">6</div>
+      <h2>⚠️ 気をつけること（超大事！）</h2>
+    </div>
+    <p style="margin-bottom:16px;font-weight:500">AIはすごいけど、かんぺきじゃない。安全に使うための「6つの注意」を覚えておこう。</p>
+
+    <div class="caution">
+      <h3>① AIは堂々とまちがえる（ハルシネーション）</h3>
+      <p>AIは「それっぽい答え」をつくるのが得意。だから、<b>本当はまちがっていることを、自信満々に言ってしまう</b>ことがある。これを「ハルシネーション」と呼ぶよ。</p>
+      <div class="ex">🔍 <b>対策：</b>大事なことは教科書・本・先生・公式サイトでダブルチェック！「AIが言ってたから正しい」はNG。</div>
+    </div>
+
+    <div class="caution">
+      <h3>② 個人情報を入力しない</h3>
+      <p>名前・住所・学校名・顔写真・電話番号などをAIに入力するのは危険。入力した情報がAIの勉強に使われて、<b>どこかで他の人への答えに出てきてしまう</b>可能性もゼロじゃないんだ。</p>
+      <div class="ex">🔒 <b>対策：</b>自分や友だち・家族の情報は入力しない。「これ入力して大丈夫かな？」と迷ったら、おうちの人や先生に相談。</div>
+    </div>
+
+    <div class="caution">
+      <h3>③ 著作権（ちょさくけん）に気をつける</h3>
+      <p>AIがつくった絵や文章が、<b>だれかの作品にそっくり</b>になってしまうことがある。人の作品をマネしたものを「自分の作品です」と発表したら、その人を傷つけてしまうし、ルール違反になることも。</p>
+      <div class="ex">🎨 <b>対策：</b>AIの作品をコンクールやSNSに出すときは要注意。「AIを使った」ことをかくさないのも大切なマナー。</div>
+    </div>
+
+    <div class="caution">
+      <h3>④ 宿題まる投げは「自分が損する」</h3>
+      <p>読書感想文をぜんぶAIに書かせたら…ラクだけど、<b>キミの考える力は1ミリも育たない</b>。それに先生にはだいたいバレる（笑）。学校によってはルール違反になるよ。</p>
+      <div class="ex">📚 <b>対策：</b>AIは「答えをもらう機械」じゃなくて「いっしょに考える相手」。「ヒントだけちょうだい」「ぼくの文章のヘンなところを教えて」という使い方が最強！</div>
+    </div>
+
+    <div class="caution">
+      <h3>⑤ AIは「人間」じゃない</h3>
+      <p>AIはとても自然に話すから、<b>心や人格があるように感じてしまう</b>ことがある。でもAIは感情を持つ友だちではなく、言葉を予想するプログラム。なやみがあるときは、AIだけじゃなく<b>本物の人間（家族・先生・友だち)</b>にも必ず話そう。</p>
+      <div class="ex">💚 <b>対策：</b>AIとのおしゃべりが楽しくても、リアルの人との時間を大切に。つらいことは信頼できる大人へ。</div>
+    </div>
+
+    <div class="caution">
+      <h3>⑥ ニセ画像・ニセ動画にだまされない</h3>
+      <p>AIで本物そっくりのニセ画像・ニセ動画（ディープフェイク）がつくれてしまう時代。SNSで見た衝撃的な画像が、<b>AI製のウソ</b>かもしれない。</p>
+      <div class="ex">🕵️ <b>対策：</b>「すごい！」と思っても即シェアしない。「だれが発信してる？」「他のニュースでも報じてる？」を確認するクセをつけよう。</div>
+    </div>
+  </section>
+
+  <!-- 第7章 クイズ -->
+  <section id="c7">
+    <div class="chapter-head">
+      <div class="chapter-num" style="background:var(--blue)">7</div>
+      <h2>AIはかせクイズに挑戦！</h2>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <h3>Q1. 生成AIの「生成」ってどういう意味？</h3>
+      <div class="opts">
+        <button class="opt">こわすこと</button>
+        <button class="opt">新しくつくり出すこと</button>
+        <button class="opt">記憶すること</button>
+      </div>
+      <div class="explain">✅ 正解は「新しくつくり出すこと」！ 文章・絵・音楽・動画などを生み出せるAIだから「生成AI」と呼ぶんだったね。</div>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <h3>Q2. AIが自信満々にまちがった答えを言ってしまう現象をなんと言う？</h3>
+      <div class="opts">
+        <button class="opt">イリュージョン</button>
+        <button class="opt">イノベーション</button>
+        <button class="opt">ハルシネーション</button>
+      </div>
+      <div class="explain">✅ 正解は「ハルシネーション」！ だから大事なことは必ずダブルチェック。AIの答えを確かめる人間の目が必要なんだ。</div>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <h3>Q3. 質問に答えるだけでなく、調べものや資料づくりなど仕事をまるごとやりとげるAIをなんと呼ぶ？</h3>
+      <div class="opts">
+        <button class="opt">AIエージェント</button>
+        <button class="opt">AIマネージャー</button>
+        <button class="opt">AIヒーロー</button>
+      </div>
+      <div class="explain">✅ 正解は「AIエージェント」！ 2025年ごろから一気に広がった、いまのAIの大きな流れだよ。</div>
+    </div>
+
+    <div class="quiz-q" data-answer="2">
+      <h3>Q4. AIに入力してはいけないものはどれ？</h3>
+      <div class="opts">
+        <button class="opt">「カレーのレシピを教えて」</button>
+        <button class="opt">「この計算の考え方を教えて」</button>
+        <button class="opt">自分の名前・住所・学校名</button>
+      </div>
+      <div class="explain">✅ 正解！ 個人情報は絶対に入力しない。これはAI時代のいちばん大事なルールのひとつだよ。</div>
+    </div>
+
+    <div class="quiz-q" data-answer="1">
+      <h3>Q5. 宿題でのAIのいちばんいい使い方は？</h3>
+      <div class="opts">
+        <button class="opt">ぜんぶ書いてもらって、写して出す</button>
+        <button class="opt">ヒントをもらったり、自分の答えをチェックしてもらう</button>
+        <button class="opt">使ったことを先生にはひみつにする</button>
+      </div>
+      <div class="explain">✅ 正解！ AIは「いっしょに考える相手」。自分の頭を使ったうえでAIに手伝ってもらうのが、いちばん力がつく使い方だよ。</div>
+    </div>
+
+    <div id="quiz-result"></div>
+  </section>
+
+  <!-- 第8章 まとめ -->
+  <section id="c8">
+    <div class="chapter-head">
+      <div class="chapter-num" style="background:var(--ink)">8</div>
+      <h2>まとめ：AIと友だちになる3つの約束</h2>
+    </div>
+    <div class="promise">
+      <ol>
+        <li>うたがう力を持つ 🔍
+          <span>AIの答えは「下書き」だと思って、大事なことは自分で確かめる。</span></li>
+        <li>自分の頭で考えてから使う 🧠
+          <span>まず自分で考える→AIに相談する。この順番が、キミをいちばん成長させる。</span></li>
+        <li>人を傷つけない・自分を守る 💚
+          <span>個人情報は入力しない。人の作品を大切にする。困ったら大人に相談する。</span></li>
+      </ol>
+      <p style="margin-top:14px;font-weight:700">AIはこれからもっとすごくなる。でも、それを<span style="background:linear-gradient(transparent 62%, var(--yellow) 62%)">どう使うか決めるのは、いつだって人間</span>。キミたちが大人になるころには、AIと協力するのが当たり前の世界。いまから「上手なつき合い方」を練習しておこう！🚀</p>
+    </div>
+  </section>
+
+  <footer>
+    この資料は2026年6月時点の情報をもとに作成しています。<br>
+    参考：文部科学省「初等中等教育段階における生成AIの利活用に関するガイドライン（Ver.2.0）」
+  </footer>
+</div>
+
+<script>
+// タイムラインの開閉
+document.querySelectorAll(".t-head").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.closest(".t-item").classList.toggle("open");
+  });
+});
+
+// クイズ
+let answered = 0, correct = 0;
+const total = document.querySelectorAll(".quiz-q").length;
+document.querySelectorAll(".quiz-q").forEach(q => {
+  const ans = parseInt(q.dataset.answer, 10);
+  q.querySelectorAll(".opt").forEach((btn, i) => {
+    btn.addEventListener("click", () => {
+      if (q.classList.contains("answered")) return;
+      q.classList.add("answered");
+      q.querySelectorAll(".opt").forEach((b, j) => {
+        b.disabled = true;
+        if (j === ans) b.classList.add("correct");
+      });
+      if (i === ans) { correct++; }
+      else { btn.classList.add("wrong"); }
+      answered++;
+      if (answered === total) {
+        const r = document.getElementById("quiz-result");
+        let msg;
+        if (correct === total) msg = "🏆 全問正解！キミはもう立派なAIはかせだ！";
+        else if (correct >= total - 1) msg = "🎉 " + correct + "/" + total + "問正解！AIはかせまであと一歩！";
+        else msg = "💪 " + correct + "/" + total + "問正解！もう一度読んで再挑戦してみよう！";
+        r.textContent = msg;
+        r.style.display = "block";
+        r.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
